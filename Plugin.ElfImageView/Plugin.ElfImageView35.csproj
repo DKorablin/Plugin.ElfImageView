@@ -35,8 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ElfReader, Version=1.0.5.0, Culture=neutral, PublicKeyToken=a8ac5fc45c3adb8d, processorArchitecture=MSIL">
-      <HintPath>..\packages\AlphaOmega.ElfReader.1.0.5\lib\net20\ElfReader.dll</HintPath>
+    <Reference Include="ElfReader, Version=1.0.8415.27252, Culture=neutral, PublicKeyToken=a8ac5fc45c3adb8d">
+      <HintPath>..\packages\AlphaOmega.ElfReader.1.0.8415.27252\lib\net20\ElfReader.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="SAL.Flatbed, Version=1.2.9.2, Culture=neutral, PublicKeyToken=a8ac5fc45c3adb8d, processorArchitecture=MSIL">
       <HintPath>..\packages\SAL.Flatbed.1.2.9.2\lib\net20\SAL.Flatbed.dll</HintPath>
