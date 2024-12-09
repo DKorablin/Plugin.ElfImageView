@@ -26,7 +26,7 @@ namespace Plugin.ElfImageView
 			case ElfItemType.Notes:				return Resources.Section_Notes;
 			case ElfItemType.DebugStrings:		return Resources.Section_DebugStrings;
 			default:
-				throw new NotImplementedException(String.Format("Type {0} not implemented", type));
+				throw new NotImplementedException($"Type {type} not implemented");
 			}
 		}
 	}

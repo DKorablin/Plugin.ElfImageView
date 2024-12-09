@@ -16,16 +16,13 @@ namespace Plugin.ElfImageView
 {
 	public class PluginWindows : IPlugin, IPluginSettings<PluginSettings>
 	{
-		#region Fields
 		private TraceSource _trace;
 		private PluginSettings _settings;
 		private readonly Object _binLock = new Object();
 		private FileStorage _binaries;
 		private Dictionary<ElfItemType, Type> _directoryViewers;
 		private Dictionary<String, DockState> _documentTypes;
-		#endregion Fields
 
-		#region Properties
 		internal TraceSource Trace => this._trace ?? (this._trace = PluginWindows.CreateTraceSource<PluginWindows>());
 
 		private IMenuItem MenuPeInfo { get; set; }
@@ -97,7 +94,6 @@ namespace Plugin.ElfImageView
 				return this._documentTypes;
 			}
 		}
-		#endregion Properties
 
 		public PluginWindows(IHostWindows hostWindows)
 			=> this.HostWindows = hostWindows ?? throw new ArgumentNullException(nameof(hostWindows));
@@ -164,11 +160,9 @@ namespace Plugin.ElfImageView
 			if(this.MenuWinApi != null && this.MenuWinApi.Items.Count == 0)
 				this.HostWindows.MainMenu.Items.Remove(this.MenuWinApi);
 
-			if(NodeExtender._nullFont != null)
-				NodeExtender._nullFont.Dispose();
+			NodeExtender._nullFont?.Dispose();
 
-			if(this._binaries != null)
-				this._binaries.Dispose();
+			this._binaries?.Dispose();
 			return true;
 		}
 
