@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Plugin.ElfImageView
+﻿namespace Plugin.ElfImageView
 {
 	public enum ElfItemType
 	{

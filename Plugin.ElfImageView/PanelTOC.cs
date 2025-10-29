@@ -18,7 +18,6 @@ namespace Plugin.ElfImageView
 	{
 		private const String Caption = "ELF View";
 		private readonly SystemImageList _smallImageList = new SystemImageList(SystemImageListSize.SmallIcons);
-		#region Properties
 
 		private PluginWindows Plugin => (PluginWindows)this.Window.Plugin;
 
@@ -36,11 +35,10 @@ namespace Plugin.ElfImageView
 				return (String)node.Tag;
 			}
 		}
-		#endregion Properties
 
 		public PanelTOC()
 		{
-			InitializeComponent();
+			this.InitializeComponent();
 			gridSearch.TreeView = tvToc;
 			SystemImageListHelper.SetImageList(tvToc, this._smallImageList, false);
 		}
@@ -67,15 +65,15 @@ namespace Plugin.ElfImageView
 			this.Plugin.Settings.PropertyChanged -= Settings_PropertyChanged;
 		}
 
-		/// <summary>Изменить заголовок окна</summary>
+		/// <summary>Change window title</summary>
 		private void ChangeTitle()
 			=> this.Window.Caption = tvToc.Nodes.Count > 0
-				? String.Format("{0} ({1})", PanelTOC.Caption, tvToc.Nodes.Count)
-				: this.Window.Caption = PanelTOC.Caption;
+				? $"{PanelTOC.Caption} ({tvToc.Nodes.Count})"
+				: PanelTOC.Caption;
 
-		/// <summary>Поиск узла в дереве по пути к файлу</summary>
-		/// <param name="filePath">Путь к файлу</param>
-		/// <returns>Найденный узел в дереве или null</returns>
+		/// <summary>Search for a node in a tree by file path</summary>
+		/// <param name="filePath">File path</param>
+		/// <returns>The found node in the tree or null</returns>
 		private TreeNode FindNode(String filePath)
 		{
 			foreach(TreeNode node in tvToc.Nodes)
@@ -144,13 +142,13 @@ namespace Plugin.ElfImageView
 				if(this.Plugin.GetSectionData(type, nodeName, filePath) is ISectionData)
 					this.OpenBinaryDocument(type, nodeName, filePath);
 				else
-					this.Plugin.Trace.TraceInformation("Viwer {0} not implemented", type); ;
+					this.Plugin.Trace.TraceInformation("Viewer {0} not implemented", type); ;
 			}
 		}
 
 		private TreeNode FillToc(String filePath)
 		{
-			//Проверка на уже добавленные файлы в дерево
+			//Checking for files already added to the tree
 			TreeNode n = this.FindNode(filePath);
 			if(n != null)
 			{
@@ -183,19 +181,19 @@ namespace Plugin.ElfImageView
 
 			splitToc.Panel2Collapsed = false;
 			String filePath = this.SelectedPE;
-			if(e.Node.Parent == null)//Описание файла
+			if(e.Node.Parent == null)//File description
 				lvInfo.DataBind(new FileInfo(filePath));
 
 			try
 			{
 				base.Cursor = Cursors.WaitCursor;
 				ElfItemType? type = this.SelectedHeader;
-				if(type.HasValue)//Директория PE файла
+				if(type.HasValue)//PE file directory
 				{
 					Object target = this.Plugin.GetSectionData(type.Value, e.Node.Text, filePath);
 					lvInfo.DataBind(target);
 				} else if(e.Node.Tag != null && e.Node.Parent != null)
-					lvInfo.DataBind(e.Node.Tag);//Generic объект
+					lvInfo.DataBind(e.Node.Tag);//Generic object
 			} finally
 			{
 				base.Cursor = Cursors.Default;

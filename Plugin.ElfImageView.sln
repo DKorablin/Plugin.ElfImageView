@@ -5,15 +5,25 @@ VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{38372133-69DF-4E47-9BFA-A85B1541D3E9}"
 	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-		.github\dependabot.yml = .github\dependabot.yml
-		Plugin.ElfImageView.dll.nuspec = Plugin.ElfImageView.dll.nuspec
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+		Directory.Packages.props = Directory.Packages.props
+		NuGet.config = NuGet.config
 		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin.ElfImageView", "Plugin.ElfImageView\Plugin.ElfImageView.csproj", "{B18861FE-6D24-764F-EF41-1A663D8567F7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
 		.github\workflows\release.yml = .github\workflows\release.yml
 		.github\workflows\test.yml = .github\workflows\test.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin.ElfImageView35", "Plugin.ElfImageView\Plugin.ElfImageView35.csproj", "{2EEDD9FF-4691-4D8D-845D-5A1BB1405AE0}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{B53CD99D-62CD-46CD-B51C-73BACC27185A}"
+	ProjectSection(SolutionItems) = preProject
+		.github\scripts\Build-ReleasePackage.ps1 = .github\scripts\Build-ReleasePackage.ps1
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,13 +31,17 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2EEDD9FF-4691-4D8D-845D-5A1BB1405AE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2EEDD9FF-4691-4D8D-845D-5A1BB1405AE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2EEDD9FF-4691-4D8D-845D-5A1BB1405AE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2EEDD9FF-4691-4D8D-845D-5A1BB1405AE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B18861FE-6D24-764F-EF41-1A663D8567F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B18861FE-6D24-764F-EF41-1A663D8567F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B18861FE-6D24-764F-EF41-1A663D8567F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B18861FE-6D24-764F-EF41-1A663D8567F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {38372133-69DF-4E47-9BFA-A85B1541D3E9}
+		{B53CD99D-62CD-46CD-B51C-73BACC27185A} = {38372133-69DF-4E47-9BFA-A85B1541D3E9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D8B7A307-ED50-4751-979F-2A1A207A3AB9}

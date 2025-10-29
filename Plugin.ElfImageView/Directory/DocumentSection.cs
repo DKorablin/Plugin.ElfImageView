@@ -17,7 +17,7 @@ namespace Plugin.ElfImageView.Directory
 
 		public DocumentSection()
 			: base(ElfItemType.StringTables)
-			=> InitializeComponent();
+			=> this.InitializeComponent();
 
 		protected override void SetCaption()
 			=> this.Window.Caption = String.Join(" - ", new String[] { Constant.GetHeaderName(this.SettingsI.Header), Path.GetFileName(this.Settings.FilePath), });
@@ -58,7 +58,7 @@ namespace Plugin.ElfImageView.Directory
 					nodes.Add(new TreeNode(debugSection.Section.Name) { Tag = debugSection, });
 				break;
 			default:
-				throw new NotImplementedException(String.Format("Viewer for section {0} not added", this.SettingsI.Header));
+				throw new NotImplementedException($"Viewer for section {this.SettingsI.Header} not added");
 			}
 
 			tvSections.Nodes.AddRange(nodes.ToArray());

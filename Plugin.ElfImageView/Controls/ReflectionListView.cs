@@ -48,12 +48,12 @@ namespace Plugin.ElfImageView.Controls
 				} else
 					this.DataBindI(row, null);
 
-				//Такой код использовать нельзя. Т.к. изредка класс инкапсулирует дочерний массив
-				/*IEnumerable ienum = row as IEnumerable;
-				if(ienum != null)
+				//This code cannot be used, because a class rarely encapsulates a child array.
+				/*IEnumerable iEnum = row as IEnumerable;
+				if(iEnum != null)
 				{
 					Int32 index = 0;
-					foreach(Object item in ienum)
+					foreach(Object item in iEnum)
 						this.DataBindI(item, this.Plugin.FormatValue(index++));
 				} else
 					this.DataBindI(row, null);*/
@@ -78,7 +78,7 @@ namespace Plugin.ElfImageView.Controls
 			base.Items.AddRange(items.ToArray());
 		}
 
-		internal ListViewItem CreateReflectedListItem(Object row, MemberInfo info, String groupName, Func<Object> deleg)
+		internal ListViewItem CreateReflectedListItem(Object row, MemberInfo info, String groupName, Func<Object> callback)
 		{
 			if(groupName == null)
 				groupName = info.MemberType.ToString();
@@ -87,7 +87,7 @@ namespace Plugin.ElfImageView.Controls
 			Boolean isException = false;
 			try
 			{
-				value = this.Plugin.FormatValue(info, deleg());
+				value = this.Plugin.FormatValue(info, callback());
 			} catch(TargetInvocationException exc)
 			{
 				isException = true;
@@ -130,7 +130,7 @@ namespace Plugin.ElfImageView.Controls
 				new ColumnHeader(){ Text = "Value", },
 			});
 
-			String[] subItems = Array.ConvertAll<String, String>(new String[base.Columns.Count], delegate(String a) { return String.Empty; });
+			String[] subItems = Array.ConvertAll<String, String>(new String[base.Columns.Count], a => String.Empty);
 			result.SubItems.AddRange(subItems);
 
 			result.SubItems[ReflectionListView.ColumnNameIndex].Text = name;

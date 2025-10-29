@@ -1,17 +1,15 @@
-﻿using System;
-
-namespace Plugin.ElfImageView.Bll
+﻿namespace Plugin.ElfImageView.Bll
 {
-	/// <summary>Тип изменения файла</summary>
+	/// <summary>File change type</summary>
 	public enum PeListChangeType
 	{
-		/// <summary>Неизвестный тип изменения</summary>
+		/// <summary>Unknown change type</summary>
 		None = 0,
-		/// <summary>Файл добвлен</summary>
+		/// <summary>File added</summary>
 		Added = 1,
-		/// <summary>Файл удалён</summary>
+		/// <summary>File removed</summary>
 		Removed = 2,
-		/// <summary>Файл изменён извне</summary>
+		/// <summary>File changed externally</summary>
 		Changed = 3,
 	}
 }

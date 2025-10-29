@@ -3,15 +3,15 @@ using Plugin.ElfImageView.Properties;
 
 namespace Plugin.ElfImageView
 {
-	/// <summary>Константы приложения</summary>
+	/// <summary>Application Constants</summary>
 	internal static class Constant
 	{
-		/// <summary>Наименование бинарного файла загруженного из памяти</summary>
+		/// <summary>Name of the binary file loaded from memory</summary>
 		public const String BinaryFile = "Binary";
 
-		/// <summary>Получить наименование заголовка</summary>
-		/// <param name="type">Тип заголовка</param>
-		/// <returns>Наименование заголовка</returns>
+		/// <summary>Get the header name</summary>
+		/// <param name="type">Header type</param>
+		/// <returns>Header name</returns>
 		public static String GetHeaderName(ElfItemType type)
 		{
 			switch(type)

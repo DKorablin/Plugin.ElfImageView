@@ -42,7 +42,7 @@ namespace Plugin.ElfImageView.Controls
 
 				foreach(var row in rows)
 				{
-					//Код обновления ранее добавленной строки
+					//Update code for a previously added line
 					Boolean added = false;
 					ListViewItem item = oldItems.FirstOrDefault(p => p.Tag == row);
 					if(item == null)
@@ -56,7 +56,7 @@ namespace Plugin.ElfImageView.Controls
 					if(members == null)
 					{
 						members = row.GetType().GetMembers().Where(p => p.MemberType == MemberTypes.Field || p.MemberType == MemberTypes.Property).ToArray();
-						//Установка колонок
+						//Settings columns
 						//this.SetColumns(members.Select(p => p.Name).ToArray());
 					}
 
@@ -89,11 +89,12 @@ namespace Plugin.ElfImageView.Controls
 					if(!added)
 						newItems.Add(item);
 				}
-				if(members == null)//Нет данных
+				if(members == null)//No data
 					base.Columns.Clear();
 
 				base.Items.AddRange(newItems.ToArray());
-				//Удаление старых строк
+
+				//Removing old rows
 				foreach(ListViewItem oldItem in oldItems)
 					base.Items.Remove(oldItem);
 				base.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
@@ -102,6 +103,7 @@ namespace Plugin.ElfImageView.Controls
 				base.ResumeLayout(false);
 			}
 		}
+
 		private ColumnHeader GetColumn(String name)
 		{
 			foreach(ColumnHeader column in base.Columns)
@@ -112,18 +114,18 @@ namespace Plugin.ElfImageView.Controls
 			return base.Columns.Add(name);
 		}
 
-		[Obsolete("Метод создаёт лютый писец с колонками при биндинге разных массивов", true)]
+		[Obsolete("The method creates a fierce scribe with columns when binding different arrays", true)]
 		private void SetColumns(String[] columns)
 		{
 			for(Int32 loop = base.Columns.Count - 1; loop >= 0; loop--)
-			{//Удаляю колонки, которых нет в объекте
+			{//I delete columns that are not in the object.
 				ColumnHeader column = base.Columns[loop];
 				if(!columns.Any(p => p == column.Text))
 					column.Dispose();
 			}
 
 			foreach(String column in columns)
-			{//Добавляю колонки, которых нет в списке
+			{//Adding columns that are not in the list
 				Boolean found = false;
 				foreach(ColumnHeader columnHeader in base.Columns)
 					if(columnHeader.Text == column)

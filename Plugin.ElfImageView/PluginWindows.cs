@@ -28,10 +28,10 @@ namespace Plugin.ElfImageView
 		private IMenuItem MenuPeInfo { get; set; }
 		private IMenuItem MenuWinApi { get; set; }
 
-		/// <summary>Настройки для взаимодействия из хоста</summary>
+		/// <summary>Settings for interaction from the host</summary>
 		Object IPluginSettings.Settings => this.Settings;
 
-		/// <summary>Настройки для взаимодействия из плагина</summary>
+		/// <summary>Settings for interaction from the plugin</summary>
 		public PluginSettings Settings
 		{
 			get
@@ -47,7 +47,7 @@ namespace Plugin.ElfImageView
 
 		internal IHostWindows HostWindows { get; }
 
-		/// <summary>Хранилище открытых файлов</summary>
+		/// <summary>Open File Storage</summary>
 		internal FileStorage Binaries
 		{
 			get
@@ -61,7 +61,7 @@ namespace Plugin.ElfImageView
 		}
 
 		internal Dictionary<ElfItemType, Type> DirectoryViewers
-		{//TODO: Маппинг типа енума на UI документа
+		{//TODO: Mapping enum type onto document UI
 			get
 			{
 				if(this._directoryViewers == null)
@@ -83,7 +83,7 @@ namespace Plugin.ElfImageView
 		private Dictionary<String, DockState> DocumentTypes
 		{
 			get
-			{//TODO: Список поддерживаемых окон
+			{//TODO: List of supported windows
 				if(this._documentTypes == null)
 					this._documentTypes = new Dictionary<String, DockState>()
 					{
@@ -122,7 +122,7 @@ namespace Plugin.ElfImageView
 		public String[] GetSearchObjects(String folderPath)
 		{
 			List<String> result = new List<String>();
-			foreach(String file in System.IO.Directory.GetFiles(folderPath, "*.*", System.IO.SearchOption.AllDirectories))//TODO: При переходе на .NET 4 переделать на Directory.EnumerateFiles
+			foreach(String file in System.IO.Directory.GetFiles(folderPath, "*.*", System.IO.SearchOption.AllDirectories))//TODO: When migrating to .NET 4, change to Directory.EnumerateFiles
 				if(System.IO.Path.GetExtension(file).Equals(".so", StringComparison.OrdinalIgnoreCase))
 					result.Add(file);
 			return result.ToArray();
@@ -160,9 +160,9 @@ namespace Plugin.ElfImageView
 			if(this.MenuWinApi != null && this.MenuWinApi.Items.Count == 0)
 				this.HostWindows.MainMenu.Items.Remove(this.MenuWinApi);
 
-			NodeExtender._nullFont?.Dispose();
-
+			NodeExtender.DisposeFonts();
 			this._binaries?.Dispose();
+
 			return true;
 		}
 
@@ -184,19 +184,19 @@ namespace Plugin.ElfImageView
 			{
 				switch((Char)value)
 				{
-				case '\'':	return "\\\'";
-				case '\"':	return "\\\"";
-				case '\0':	return "\\0";
-				case '\a':	return "\\a";
-				case '\b':	return "\\b";
-				case '\f':	return "\\b";
-				case '\t':	return "\\t";
-				case '\n':	return "\\n";
-				case '\r':	return "\\r";
-				case '\v':	return "\\v";
-				default:	return value.ToString();
+				case '\'': return "\\\'";
+				case '\"': return "\\\"";
+				case '\0': return "\\0";
+				case '\a': return "\\a";
+				case '\b': return "\\b";
+				case '\f': return "\\b";
+				case '\t': return "\\t";
+				case '\n': return "\\n";
+				case '\r': return "\\r";
+				case '\v': return "\\v";
+				default: return value.ToString();
 				}
-			} else if(value is IFormattable)
+			} else if(value is IFormattable fValue)
 			{
 				type = type.GetRealType();//INullable<Enum>
 				if(type.IsEnum)
@@ -215,10 +215,9 @@ namespace Plugin.ElfImageView
 				case TypeCode.Single:
 				case TypeCode.Double:
 				case TypeCode.Decimal:
-					if(this.Settings.ShowAsHexValue)
-						return "0x" + ((IFormattable)value).ToString("X", CultureInfo.CurrentCulture);
-					else
-						return ((IFormattable)value).ToString("n0", CultureInfo.CurrentCulture);
+					return this.Settings.ShowAsHexValue
+						? "0x" + fValue.ToString("X", CultureInfo.CurrentCulture)
+						: fValue.ToString("n0", CultureInfo.CurrentCulture);
 				default:
 					return value.ToString();
 				}
@@ -258,9 +257,9 @@ namespace Plugin.ElfImageView
 			return this.GetSectionData(type, nodeName, info);
 		}
 
-		/// <summary>Получить объект, соответсвующий определённому идентификатору енума</summary>
-		/// <param name="type">Тип заголовка</param>
-		/// <param name="filePath">Путь к PE файлу</param>
+		/// <summary>Get an object corresponding to a specific enum identifier</summary>
+		/// <param name="type">Header type</param>
+		/// <param name="filePath">Path to the PE file</param>
 		/// <returns></returns>
 		internal Object GetSectionData(ElfItemType type, String nodeName, ElfFile info)
 		{

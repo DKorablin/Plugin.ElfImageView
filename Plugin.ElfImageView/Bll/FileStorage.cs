@@ -26,16 +26,16 @@ namespace Plugin.ElfImageView.Bll
 			this._plugin.Settings.PropertyChanged += Settings_PropertyChanged;
 		}
 
-		/// <summary>Получить информацию по PE файлу. Если файл не открыт, то открыть его</summary>
-		/// <param name="filePath">Путь к файлу, информацию по которому необходимо почитать</param>
-		/// <returns>Информация по PE/COFF файлу или null</returns>
+		/// <summary>Get information about a PE file. If the file is not open, open it.</summary>
+		/// <param name="filePath">Path to the file whose information you want to read.</param>
+		/// <returns>Information about the PE/COFF file or null.</returns>
 		public ElfFile LoadFile(String filePath)
 			=> this.LoadFile(filePath, false);
 
-		/// <summary>Получить информацию по PE файлу</summary>
-		/// <param name="filePath">Путь к файлу, информацию по которому необходимо почитать</param>
-		/// <param name="noLoad">Поискать файл в уже подгруженных файлах и если такой файл не найден не загружать</param>
-		/// <returns>Информация по PE/COFF файлу или null</returns>
+		/// <summary>Get information about a PE file</summary>
+		/// <param name="filePath">Path to the file whose information you want to read</param>
+		/// <param name="noLoad">Search for the file in already loaded files and, if such a file is not found, do not load</param>
+		/// <returns>Information about the PE/COFF file or null</returns>
 		public ElfFile LoadFile(String filePath, Boolean noLoad)
 		{
 			if(String.IsNullOrEmpty(filePath))
@@ -49,7 +49,7 @@ namespace Plugin.ElfImageView.Bll
 			}
 
 			if(!File.Exists(filePath))
-				return null;//Это необходимо для отсечки файлов, которые были загружены через память
+				return null;//This is necessary to cut off files that were loaded through memory.
 
 			result = this.LoadFile(filePath, true);
 			if(result == null)
@@ -62,7 +62,7 @@ namespace Plugin.ElfImageView.Bll
 
 						result = new ElfFile(loader);
 						this._binaries.Add(filePath, result);
-						if(!this._binaryWatcher.ContainsKey(filePath)//При обновлении файла удаляется только файл, а не его монитор
+						if(!this._binaryWatcher.ContainsKey(filePath)//When you update a file, only the file is deleted, not its monitor.
 							&& this._plugin.Settings.MonitorFileChange)
 							this.RegisterFileWatcher(filePath);
 					}
@@ -70,8 +70,8 @@ namespace Plugin.ElfImageView.Bll
 			return result;
 		}
 
-		/// <summary>Закрыть ранее открытый файл</summary>
-		/// <param name="filePath">Путь к файлу для закрывания</param>
+		/// <summary>Close a previously opened file</summary>
+		/// <param name="filePath">Path to the file to close</param>
 		public void UnloadFile(String filePath)
 		{
 			if(String.IsNullOrEmpty(filePath))
@@ -91,7 +91,7 @@ namespace Plugin.ElfImageView.Bll
 					if(ctrl != null && ctrl.FilePath == filePath)
 						wnd.Close();
 				}
-				if(filePath.StartsWith(Constant.BinaryFile))//Бинарный файл удаляется сразу из списка после закрытия
+				if(filePath.StartsWith(Constant.BinaryFile))//The binary file is removed from the list immediately after closing.
 					this.OnPeListChanged(PeListChangeType.Removed, filePath);
 			} finally
 			{
@@ -101,9 +101,9 @@ namespace Plugin.ElfImageView.Bll
 			}
 		}
 
-		/// <summary>Зарегистрировать монитор файла на изменение</summary>
-		/// <param name="filePath">Путь к файлу, изменения на которого зарегистрировать</param>
-		/// <exception cref="ArgumentNullException">filePath is null or empty string</exception>
+		/// <summary>Register a file monitor for changes</summary>
+		/// <param name="filePath">Path to the file whose changes to register</param>
+		/// <exception cref="ArgumentNullException"><paramref name="filePath"/> is null or empty string</exception>
 		/// <exception cref="FileNotFoundException">File not found</exception>
 		public void RegisterFileWatcher(String filePath)
 		{
@@ -116,7 +116,7 @@ namespace Plugin.ElfImageView.Bll
 			{
 				NotifyFilter = NotifyFilters.LastWrite
 			};
-			watcher.Changed += new FileSystemEventHandler(watcher_Changed);
+			watcher.Changed += new FileSystemEventHandler(this.watcher_Changed);
 			watcher.EnableRaisingEvents = true;
 			this._binaryWatcher.Add(filePath, watcher);
 		}
@@ -133,8 +133,8 @@ namespace Plugin.ElfImageView.Bll
 			}
 		}
 
-		/// <summary>Добавить файл из памяти в список открытых файлов</summary>
-		/// <param name="memFile">Файл из памяти</param>
+		/// <summary>Add a file from memory to the list of open files</summary>
+		/// <param name="memFile">File from memory</param>
 		public void OpenFile(Byte[] memFile)
 		{
 			if(memFile == null || memFile.Length == 0)
@@ -150,14 +150,14 @@ namespace Plugin.ElfImageView.Bll
 			this.OnPeListChanged(PeListChangeType.Added, name);
 		}
 
-		/// <summary>Добавить файл в список открытых файлов</summary>
-		/// <param name="filePath">Путь к файлу</param>
+		/// <summary>Add a file to the list of open files</summary>
+		/// <param name="filePath">Path to file</param>
 		public Boolean OpenFile(String filePath)
 		{
 			if(String.IsNullOrEmpty(filePath))
 				throw new ArgumentNullException(nameof(filePath));
 			if(filePath.StartsWith(Constant.BinaryFile))
-				return false;//Это необходимо для отсечки файлов, которые были загружены через память
+				return false;//This is necessary to cut off files that were loaded through memory.
 
 			String[] loadedFiles = this._plugin.Settings.LoadedFiles;
 			if(loadedFiles.Contains(filePath))
@@ -183,7 +183,7 @@ namespace Plugin.ElfImageView.Bll
 			String[] loadedFiles = this._plugin.Settings.LoadedFiles;
 			List<String> files = new List<String>(loadedFiles);
 			if(files.Remove(filePath))
-			{//Если это файл из памяти, то его нет в списке файлов
+			{//If this is a file from memory, then it is not in the file list.
 				this._plugin.Settings.LoadedFiles = files.ToArray();
 				this._plugin.HostWindows.Plugins.Settings(this._plugin).SaveAssemblyParameters();
 				this.OnPeListChanged(PeListChangeType.Removed, filePath);
@@ -206,9 +206,10 @@ namespace Plugin.ElfImageView.Bll
 				this._binaryWatcher.Clear();
 			}
 		}
-		/// <summary>Изменился список загруженных файлов</summary>
-		/// <param name="type">Тип изменения</param>
-		/// <param name="filePath">Путь к файлу, на которм произошло изменение</param>
+
+		/// <summary>The list of uploaded files has changed</summary>
+		/// <param name="type">Type of change</param>
+		/// <param name="filePath">Path to the file where the change occurred</param>
 		private void OnPeListChanged(PeListChangeType type, String filePath)
 			=> this.PeListChanged?.Invoke(this, new PeListChangedEventArgs(type, filePath));
 
@@ -248,14 +249,14 @@ namespace Plugin.ElfImageView.Bll
 			watcher.EnableRaisingEvents = false;
 
 			try
-			{//Попытка обойти нотификацию об изменении файла несколько раз
+			{//Attempting to bypass file change notification multiple times
 				if(MessageBox.Show(
 					String.Format("{1}{0}This file has been modified outside of the program.{0}Do you want to reload it?", Environment.NewLine, e.FullPath),
 					Assembly.GetExecutingAssembly().GetName().Name,
 					MessageBoxButtons.YesNo,
 					MessageBoxIcon.Question) == DialogResult.Yes)
 				{
-					//Закрываю старый файл
+					//Closing the old file.
 					lock(this._binLock)
 					{
 						this._binaries[e.FullPath].Dispose();
@@ -269,9 +270,10 @@ namespace Plugin.ElfImageView.Bll
 				watcher.EnableRaisingEvents = true;
 			}
 		}
-		/// <summary>Получить уникальное наименование бинарного файла</summary>
-		/// <param name="index">Индекс, если файл с таким наименованием уже загружен</param>
-		/// <returns>Уникальное наименование файла</returns>
+
+		/// <summary>Get the unique name of a binary file</summary>
+		/// <param name="index">Index, if a file with that name is already loaded</param>
+		/// <returns>Unique file name</returns>
 		private String GetBinaryUniqueName(UInt32 index)
 		{
 			String indexName = index > 0

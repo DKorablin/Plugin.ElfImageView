@@ -17,7 +17,7 @@ namespace Plugin.ElfImageView
 		public Boolean ShowAsHexValue
 		{
 			get => this._showAsHexValue;
-			set => this.SetField(ref this._showAsHexValue, value, nameof(ShowAsHexValue));
+			set => this.SetField(ref this._showAsHexValue, value, nameof(this.ShowAsHexValue));
 		}
 
 		[Category("Appearance")]
@@ -26,7 +26,7 @@ namespace Plugin.ElfImageView
 		public UInt32 MaxArrayDisplay
 		{
 			get => this._maxArrayDisplay;
-			set => this.SetField(ref this._maxArrayDisplay, value, nameof(MaxArrayDisplay));
+			set => this.SetField(ref this._maxArrayDisplay, value, nameof(this.MaxArrayDisplay));
 		}
 
 		[Category("Data")]
@@ -35,7 +35,7 @@ namespace Plugin.ElfImageView
 		public Boolean MonitorFileChange
 		{
 			get => this._monitorFileChange;
-			set => this.SetField(ref this._monitorFileChange, value, nameof(MonitorFileChange));
+			set => this.SetField(ref this._monitorFileChange, value, nameof(this.MonitorFileChange));
 		}
 
 		[Category("Data")]
@@ -45,7 +45,7 @@ namespace Plugin.ElfImageView
 		public String LoadedFilesI
 		{
 			get => this._loadedFilesI;
-			set => this.SetField(ref this._loadedFilesI, value, nameof(LoadedFilesI));
+			set => this.SetField(ref this._loadedFilesI, value, nameof(this.LoadedFilesI));
 		}
 
 		/// <remarks>.NET 2.0 XML Serializer fix</remarks>

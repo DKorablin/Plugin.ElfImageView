@@ -1,0 +1,72 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFrameworks>net35;net8.0-windows</TargetFrameworks>
+		<UseWindowsForms>true</UseWindowsForms>
+		<EnableWindowsTargeting>true</EnableWindowsTargeting>
+		<OutputType>Library</OutputType>
+		<RootNamespace>Plugin.ElfImageView</RootNamespace>
+		<Deterministic>false</Deterministic>
+		<GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<GenerateDocumentationFile>False</GenerateDocumentationFile>
+		<CopyLocalLockFileAssemblies>True</CopyLocalLockFileAssemblies>
+		<NoWarn>CA1416</NoWarn>
+	</PropertyGroup>
+
+	<!--nuspec-->
+	<PropertyGroup>
+		<PackageId>AlphaOmega.SAL.Plugin.ElfImageView</PackageId>
+		<Version>$(Version)</Version>
+		<Title>Read Executable and Linkable Format image viewer</Title>
+		<Description>As part of the project to read the contents of the APK file, several plugins were implemented to read commonly used file formats inside the APK archive. Total parsed formats: Davlik (.dex), ELF (.so), and JavaClass (.class).</Description>
+		<Authors>Danila Korablin</Authors>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageReadmeFile>docs\README.md</PackageReadmeFile>
+		<PackageIcon>docs\SAL.100.png</PackageIcon>
+		<RepositoryUrl>https://github.com/DKorablin/Plugin.ElfImageView</RepositoryUrl>
+		<PackageTags>SAL;plugin;windows;ELF;Reader;Parser</PackageTags>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\README.md" Pack="true" PackagePath="\docs" />
+		<None Include="..\Images.Shared\SAL.100.png" Pack="true" PackagePath="\docs" />
+	</ItemGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Release'">
+		<Optimize>true</Optimize>
+		<PublishSingleFile>true</PublishSingleFile>
+		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)'=='net8.0-windows'">
+		<AssemblyAttributes Include="AssemblyMetadata">
+			<_Parameter1>ProjectUrl</_Parameter1>
+			<_Parameter2>https://github.com/DKorablin/Plugin.ElfImageView</_Parameter2>
+		</AssemblyAttributes>
+		<AssemblyAttributes Include="System.Runtime.Versioning.SupportedOSPlatform">
+			<_Parameter1>Windows</_Parameter1>
+		</AssemblyAttributes>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="SAL.Windows">
+			<ExcludeAssets>runtime</ExcludeAssets>
+		</PackageReference>
+		<PackageReference Include="AlphaOmega.ElfReader" />
+		<Reference Include="System.Design" Condition="'$(TargetFramework)' == 'net35'" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Include="..\WinForms.Shared\ContextMenuStripCopy.cs" Link="Controls\ContextMenuStripCopy.cs" />
+		<Compile Include="..\WinForms.Shared\HexLoadDlg\HexLoadDlg.cs" Link="Controls\HexLoadDlg.cs" />
+		<Compile Include="..\WinForms.Shared\HexLoadDlg\HexLoadDlg.Designer.cs" Link="Controls\HexLoadDlg.Designer.cs" />
+		<Compile Include="..\WinForms.Shared\SearchGrid\SearchGrid.cs" Link="Controls\SearchGrid.cs" />
+		<Compile Include="..\WinForms.Shared\SearchGrid\SearchGrid.Designer.cs" Link="Controls\SearchGrid.Designer.cs" />
+		<Compile Include="..\WinForms.Shared\SortableListView.cs" Link="Controls\SortableListView.cs" />
+		<Compile Include="..\WinForms.Shared\SystemImageList.cs" Link="Controls\SystemImageList.cs" />
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="..\WinForms.Shared\HexLoadDlg\HexLoadDlg.resx" Link="Controls\HexLoadDlg.resx" />
+		<EmbeddedResource Include="..\WinForms.Shared\SearchGrid\SearchGrid.resx" Link="Controls\SearchGrid.resx" />
+	</ItemGroup>
+</Project>
