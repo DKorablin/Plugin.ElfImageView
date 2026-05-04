@@ -19,7 +19,7 @@ namespace Plugin.ElfImageView
 		private const String Caption = "ELF View";
 		private readonly SystemImageList _smallImageList = new SystemImageList(SystemImageListSize.SmallIcons);
 
-		private PluginWindows Plugin => (PluginWindows)this.Window.Plugin;
+		private PluginWindows Plugin => (PluginWindows)this.Window.Plugin.Instance;
 
 		private IWindow Window => (IWindow)base.Parent;
 
