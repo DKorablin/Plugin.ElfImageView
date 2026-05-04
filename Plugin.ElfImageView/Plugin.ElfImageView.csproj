@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>net35;net8.0-windows</TargetFrameworks>
+		<TargetFrameworks>net48;net8.0-windows</TargetFrameworks>
 		<UseWindowsForms>true</UseWindowsForms>
 		<EnableWindowsTargeting>true</EnableWindowsTargeting>
 		<OutputType>Library</OutputType>
@@ -53,7 +53,7 @@
 			<ExcludeAssets>runtime</ExcludeAssets>
 		</PackageReference>
 		<PackageReference Include="AlphaOmega.ElfReader" />
-		<Reference Include="System.Design" Condition="'$(TargetFramework)' == 'net35'" />
+		<Reference Include="System.Design" Condition="'$(TargetFramework)' == 'net48'" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -68,5 +68,18 @@
 	<ItemGroup>
 		<EmbeddedResource Include="..\WinForms.Shared\HexLoadDlg\HexLoadDlg.resx" Link="Controls\HexLoadDlg.resx" />
 		<EmbeddedResource Include="..\WinForms.Shared\SearchGrid\SearchGrid.resx" Link="Controls\SearchGrid.resx" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Compile Update="Properties\Resources.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Resources.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+	<ItemGroup>
+	  <EmbeddedResource Update="Properties\Resources.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
 	</ItemGroup>
 </Project>

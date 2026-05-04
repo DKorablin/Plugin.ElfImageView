@@ -28,7 +28,7 @@ namespace Plugin.ElfImageView.Directory
 			=> this._settings ?? (this._settings = new DocumentBaseSettings());
 
 		protected virtual void SetCaption()
-			=> this.Window.Caption = String.Join(" - ", new String[] { Path.GetFileName(this.Settings.FilePath), Constant.GetHeaderName(this._peType), });
+			=> this.Window.Caption = String.Join(" - ", Path.GetFileName(this.Settings.FilePath), Constant.GetHeaderName(this._peType));
 
 		protected DocumentBase(ElfItemType type)
 		{
@@ -51,7 +51,7 @@ namespace Plugin.ElfImageView.Directory
 			var info = this.GetFile();
 			if(info == null)
 			{
-				this.Plugin.Trace.TraceInformation("File {0} not found", this.FilePath);
+				this.Plugin.Trace.TraceEvent(System.Diagnostics.TraceEventType.Information, 0, "File {0} not found", this.FilePath);
 				this.Window.Close();
 			}
 		}
@@ -109,7 +109,7 @@ namespace Plugin.ElfImageView.Directory
 				path = localPath;
 
 			if(path == null)
-				this.Plugin.Trace.TraceInformation("Module {1} not found at:{0}\tSystem: {2}{0}\tLocal: {3}", Environment.NewLine, fileName, sysPath, localPath);
+				this.Plugin.Trace.TraceEvent(System.Diagnostics.TraceEventType.Information, 0, "Module {1} not found at:{0}\tSystem: {2}{0}\tLocal: {3}", Environment.NewLine, fileName, sysPath, localPath);
 			return path;
 		}
 

@@ -54,15 +54,15 @@ namespace Plugin.ElfImageView
 				this.FillToc(file);
 			this.ChangeTitle();
 
-			this.Plugin.Binaries.PeListChanged += new EventHandler<PeListChangedEventArgs>(Plugin_PeListChanged);
-			this.Plugin.Settings.PropertyChanged += Settings_PropertyChanged;
+			this.Plugin.Binaries.PeListChanged += new EventHandler<PeListChangedEventArgs>(this.Plugin_PeListChanged);
+			this.Plugin.Settings.PropertyChanged += this.Settings_PropertyChanged;
 			base.OnCreateControl();
 		}
 
 		private void Window_Closing(Object sender, CancelEventArgs e)
 		{
-			this.Plugin.Binaries.PeListChanged -= new EventHandler<PeListChangedEventArgs>(Plugin_PeListChanged);
-			this.Plugin.Settings.PropertyChanged -= Settings_PropertyChanged;
+			this.Plugin.Binaries.PeListChanged -= new EventHandler<PeListChangedEventArgs>(this.Plugin_PeListChanged);
+			this.Plugin.Settings.PropertyChanged -= this.Settings_PropertyChanged;
 		}
 
 		/// <summary>Change window title</summary>
@@ -142,7 +142,7 @@ namespace Plugin.ElfImageView
 				if(this.Plugin.GetSectionData(type, nodeName, filePath) is ISectionData)
 					this.OpenBinaryDocument(type, nodeName, filePath);
 				else
-					this.Plugin.Trace.TraceInformation("Viewer {0} not implemented", type); ;
+					this.Plugin.Trace.TraceEvent(System.Diagnostics.TraceEventType.Information, 0, "Viewer {0} not implemented", type);
 			}
 		}
 
