@@ -15,7 +15,7 @@ namespace Plugin.ElfImageView.Directory
 		private readonly ElfItemType _peType;
 		private DocumentBaseSettings _settings;
 
-		protected PluginWindows Plugin => (PluginWindows)this.Window.Plugin;
+		protected PluginWindows Plugin => (PluginWindows)this.Window.Plugin.Instance;
 
 		protected IWindow Window => (IWindow)base.Parent;
 
